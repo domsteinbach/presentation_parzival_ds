@@ -3,6 +3,7 @@
 	import ErlaeuterungenEintextEdition from '$lib/components/erlaeuterungen-components/ErlaeuterungenEintextEdition.svelte';
 	import ErlaeuterungenFassungsedition from '$lib/components/erlaeuterungen-components/ErlaeuterungenFassungsedition.svelte';
 	import ErlaeuterungenTranskriptionen from '$lib/components/erlaeuterungen-components/ErlaeuterungenTranskriptionen.svelte';
+	import Zitierempfehlung from '$lib/components/Zitierempfehlung.svelte';
 </script>
 
 <svelte:head>
@@ -13,11 +14,20 @@
 	<h1 class="h1 mb-4">
 		Erläuterungen zur Fassungsedition, zur Eintextedition und zu den Transkriptionen
 	</h1>
-	<H2Hoverable name="Fassungsedition"></H2Hoverable>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap">
+		<H2Hoverable name="Fassungsedition"></H2Hoverable>
+		<Zitierempfehlung mode="popup" citation={{ variant: 'fassungen' }} />
+	</div>
 	<ErlaeuterungenFassungsedition />
-	<H2Hoverable name="Eintextedition (Kritische Edition im PDF-Format)"></H2Hoverable>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap">
+		<H2Hoverable name="Eintextedition (Kritische Edition im PDF-Format)"></H2Hoverable>
+		<Zitierempfehlung mode="popup" citation={{ variant: 'eintextedition' }} />
+	</div>
 	<ErlaeuterungenEintextEdition />
-	<H2Hoverable name="Transkriptionen (auch relevant für die Darstellung in der Verssynopse)"
-	></H2Hoverable>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap">
+		<H2Hoverable name="Transkriptionen (auch relevant für die Darstellung in der Verssynopse)"
+		></H2Hoverable>
+		<Zitierempfehlung mode="popup" citation={{ variant: 'bare' }} />
+	</div>
 	<ErlaeuterungenTranskriptionen />
 </div>

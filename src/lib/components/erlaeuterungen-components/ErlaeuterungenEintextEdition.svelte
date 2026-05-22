@@ -3,11 +3,6 @@
 </script>
 
 <p>
-	<b>Zitierempfehlung:</b> Wolfram von Eschenbach, ›Parzival‹, Digitale Ausgabe, Eintextedition, hg. von
-	Michael Stolz in Zusammenarbeit mit Stefan Abel und einem internationalen Editionsteam, parzival.unibe.ch
-	(Zugriff: [aktuelles Datum])
-</p>
-<p>
 	Die Eintextedition (im PDF-Format) stellt die synoptische Fassungsedition des ›Parzival‹
 	kondensiert auf den kritischen Text nach Fassung *D dar (auf der Grundlage von Leiths. D). Die
 	fett markierten Fassungsvarianten in *G und *T der synoptischen Edition sind in einer etwas

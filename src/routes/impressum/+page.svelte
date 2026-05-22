@@ -1,5 +1,6 @@
 <script>
 	import licenceIcon from '$lib/assets/cc-by-nc-sa.png';
+	import Zitierempfehlung from '$lib/components/Zitierempfehlung.svelte';
 </script>
 
 <svelte:head>
@@ -91,9 +92,5 @@
 		(Signatur) anzugeben.
 	</p>
 	<h2>Zitierempfehlung</h2>
-	<p>
-		Wolfram von Eschenbach, ›Parzival‹, Digitale Ausgabe, hg. von Michael Stolz in Zusammenarbeit
-		mit Stefan Abel und einem internationalen Editionsteam, <i>parzival.unibe.ch</i> (Zugriff:
-		[aktuelles Datum])
-	</p>
+	<Zitierempfehlung citation={{ variant: 'bare' }} />
 </div>
