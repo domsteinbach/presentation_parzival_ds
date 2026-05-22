@@ -53,7 +53,7 @@ jobs:
       - name: build
         env:
           # BASE_PATH: "/${{ github.event.repository.name }}"
-          BASE_PATH: ""
+          BASE_PATH: "/${{ github.event.repository.name }}"
           NODE_OPTIONS: "--max_old_space_size=9000"
         run: |
           npm run build
