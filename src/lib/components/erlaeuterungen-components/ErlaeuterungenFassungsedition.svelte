@@ -1,9 +1,4 @@
 <p>
-	<b>Zitierempfehlung:</b> Wolfram von Eschenbach, ›Parzival‹, Digitale Ausgabe nach Fassungen, hg. von
-	Michael Stolz in Zusammenarbeit mit Stefan Abel und einem internationalen Editionsteam, parzival.unibe.ch
-	(Zugriff: [aktuelles Datum])
-</p>
-<p>
 	Die Anlage der Fassungsedition ist an den von Karl Lachmann eingeführten Dreißigergruppen
 	(Einheiten von jeweils 30 Versen) orientiert. Pro Dreißiger ist eine Ansicht der synoptisch
 	angeordneten Fassungen *D, *m, *G und *T abrufbar. Kontextuell werden jedem Dreißiger jeweils

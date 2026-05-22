@@ -10,6 +10,7 @@
 	import { URL_STATIC_API, URL_IIIF } from '$lib/constants';
 	import filenameFromHandleAndId from '$lib/functions/filenameFromHandleAndId';
 	import Popover from '$lib/components/Popover.svelte';
+	import Zitierempfehlung from '$lib/components/Zitierempfehlung.svelte';
 	import sigilFromHandle from '$lib/functions/sigilFromHandle';
 	import metadataFromHandle from '$lib/functions/metadataFromHandle';
 
@@ -164,7 +165,10 @@
 </svelte:head>
 
 <section class="w-full">
-	<h1 class="h1 my-4">Transkriptionen</h1>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap my-4">
+		<h1 class="h1 min-w-0">Transkriptionen</h1>
+		<Zitierempfehlung mode="popup" citation={{ variant: 'bare' }} />
+	</div>
 	<div class="grid gap-6 md:grid-cols-2 md:my-8">
 		<div class="flex flex-col gap-6">
 			<div>

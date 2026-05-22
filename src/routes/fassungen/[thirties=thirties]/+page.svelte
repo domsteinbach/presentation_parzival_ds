@@ -1,6 +1,7 @@
 <script>
 	import ErlaeuterungenFassungsedition from '$lib/components/erlaeuterungen-components/ErlaeuterungenFassungsedition.svelte';
 	import ExpandableContent from '$lib/components/ExpandableContent.svelte';
+	import Zitierempfehlung from '$lib/components/Zitierempfehlung.svelte';
 	import FassungenSyncContent from './FassungenSyncContent.svelte';
 	import FassungenContent from './FassungenContent.svelte';
 	import FassungskommentarModal from './FassungskommentarModal.svelte';
@@ -465,7 +466,10 @@
 			{next ? 'Nächsten Dreißiger anzeigen' : 'vorherigen Dreißiger anzeigen'}
 		</button>
 	{/snippet}
-	<h1 class="h1 my-4">Fassungsedition</h1>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap my-4">
+		<h1 class="h1 min-w-0">Fassungsedition</h1>
+		<Zitierempfehlung mode="popup" citation={{ variant: 'fassungen' }} />
+	</div>
 	<ExpandableContent clampClass="line-clamp-3" class="mb-4 typography">
 		<ErlaeuterungenFassungsedition />
 	</ExpandableContent>
