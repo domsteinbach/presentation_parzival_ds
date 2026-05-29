@@ -65,7 +65,7 @@
 	</div>
 </div>
 <div
-	class="lg:h-[calc(100vh-8rem)] lg:overflow-y-auto preset-filled-surface-500"
+	class="lg:h-[calc(100vh-5rem)] lg:overflow-y-auto preset-filled-surface-500"
 	bind:this={scrollContainer}
 	onscroll={() => {
 		resetPopup();

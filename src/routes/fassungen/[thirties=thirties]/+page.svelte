@@ -441,6 +441,13 @@
 	});
 
 	let gotoThirties = $state(Number(data.thirties));
+
+	// --------------------------------------
+	// Fassungen ein-/ausblenden (visibility toggles per column)
+	// --------------------------------------
+	const columnKeys = /** @type {const} */ (['d', 'm', 'G', 'T']);
+	/** @type {boolean[]} */
+	let fassungenVisible = $state([true, true, true, true]);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -474,7 +481,7 @@
 		<ErlaeuterungenFassungsedition />
 	</ExpandableContent>
 
-	<div class="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-6">
+	<div class="mt-6 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-6">
 		<aside class="lg:sticky lg:top-0 lg:self-start lg:max-h-screen lg:overflow-y-auto">
 			<div class="flex flex-col gap-3">
 				<div>
@@ -517,13 +524,28 @@
 						id="goto-thirties"
 						type="number"
 						placeholder="Dreißiger"
-						class="input inline max-w-28"
+						class="input inline w-[4em]"
 						min="1"
 						max={NUMBER_OF_PAGES}
 						bind:value={gotoThirties}
 					/>
 					<button aria-label="suchen" class="btn preset-filled-primary-500">Anzeigen</button>
 				</form>
+
+				<fieldset class="flex flex-col gap-2">
+					<legend class="text-lg font-bold font-serif mb-2">Ein-/ausblenden</legend>
+					{#each columnKeys as key, i}
+						<Switch
+							thumbInactive="bg-surface-800"
+							controlInactive="bg-surface-100"
+							name="fassung-{key}"
+							checked={fassungenVisible[i]}
+							onCheckedChange={(e) => (fassungenVisible[i] = e.checked)}
+						>
+							{composureTitles[i]}
+						</Switch>
+					{/each}
+				</fieldset>
 			</div>
 		</aside>
 
@@ -559,23 +581,33 @@
 					content={localPages.pages}
 					distributions={localPages.distributions}
 					titles={composureTitles}
+					{fassungenVisible}
 					{nextPrevButton}
 				/>
 			{:else}
-				<div class="grid lg:grid-cols-4 gap-4 mb-2">
+				{@const visibleCount = fassungenVisible.filter(Boolean).length}
+				<div
+					class="grid gap-4 mb-2"
+					class:lg:grid-cols-1={visibleCount === 1}
+					class:lg:grid-cols-2={visibleCount === 2}
+					class:lg:grid-cols-3={visibleCount === 3}
+					class:lg:grid-cols-4={visibleCount === 4}
+				>
 					{#each localPages.pages as fassung, i}
-						<div>
-							{#if fassung.length >= 2}
-								<!-- when at least 2 pages are loaded, the one for the currect thirties should be loaded aswell  -->
-								<FassungenContent
-									resetPopup={closeApparatOnInteraction}
-									pages={fassung}
-									distribution={localPages.distributions[i]}
-									title={composureTitles[i]}
-									{nextPrevButton}
-								/>
-							{/if}
-						</div>
+						{#if fassungenVisible[i]}
+							<div>
+								{#if fassung.length >= 2}
+									<!-- when at least 2 pages are loaded, the one for the currect thirties should be loaded aswell  -->
+									<FassungenContent
+										resetPopup={closeApparatOnInteraction}
+										pages={fassung}
+										distribution={localPages.distributions[i]}
+										title={composureTitles[i]}
+										{nextPrevButton}
+									/>
+								{/if}
+							</div>
+						{/if}
 					{/each}
 				</div>
 			{/if}
