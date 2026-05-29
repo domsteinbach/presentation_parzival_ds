@@ -13,7 +13,7 @@
 		<h1 class="min-w-0">Eintextedition</h1>
 		<Zitierempfehlung mode="popup" citation={{ variant: 'eintextedition' }} />
 	</div>
-	<ExpandableContent clampClass="line-clamp-3" class="mb-8 typography">
+	<ExpandableContent clampClass="line-clamp-2" class="mb-8 typography">
 		<ErlaeuterungenEintextEdition />
 	</ExpandableContent>
 	<embed
