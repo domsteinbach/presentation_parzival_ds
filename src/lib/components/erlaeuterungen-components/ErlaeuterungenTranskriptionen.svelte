@@ -85,7 +85,10 @@
 	>iz).
 </p>
 
-<p>Überschriften: rotfarbig (z. B.: <span class="tei-hi1 red rot">Her parcifal</span>).</p>
+<p>Überschriften: orangefarbig und fett (z. B.: <span class="tei-hi1 red rot">Her parcifal</span>).</p>
+<ErlaeuterungenExample href="/transkriptionen/l/112/09-01?" label="L 112.9-01">
+	<span class="content"><span class="tei-hi1 red rot">her parcifal</span></span>
+</ErlaeuterungenExample>
 <p>
 	Vom Schreiber ausgeführte Korrekturen: Das korrigierte Wort weist hellgraue Farbe auf (für
 	unlesbare Buchstaben steht *), das Korrekturresultat wird in grüner Farbe angezeigt.
