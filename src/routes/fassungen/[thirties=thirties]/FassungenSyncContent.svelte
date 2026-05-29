@@ -49,10 +49,10 @@
 	});
 </script>
 
-<div class="grid lg:grid-cols-4 gap-4 my-4">
+<div class="grid lg:grid-cols-4 gap-4 mb-2">
 	{#each content as _fassung, i}
 		<div>
-			<h2 class="h2 inline-flex">
+			<h3 class="h3 inline-flex">
 				{titles[i]}
 				{#if titles[i].includes('T')}
 					{#if thirtiesNum >= 36 && thirtiesNum <= 157}
@@ -61,7 +61,7 @@
 						<span>(Q)</span>
 					{/if}
 				{/if}
-			</h2>
+			</h3>
 			<div class="inline [&_ul,&_li]:inline [&_li]:mr-1 anchor">
 				{@html distributions[i][page.data.thirties]}
 			</div>
@@ -69,7 +69,7 @@
 	{/each}
 </div>
 <div
-	class="grid lg:grid-cols-4 gap-x-4 my-4 tei-content synced grid-flow-dense max-h-[70vh] overflow-y-auto"
+	class="grid lg:grid-cols-4 gap-x-4 my-4 tei-content synced grid-flow-dense lg:h-[calc(100vh-5rem)] lg:overflow-y-auto"
 	bind:this={scrollContainer}
 	onscroll={() => {
 		resetPopup();
