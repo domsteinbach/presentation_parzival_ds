@@ -1,11 +1,11 @@
 [data-theme='oldvintage'] {
-	--text-scaling: 1.067;
+	--text-scaling: 1.05;
 	--base-font-color: var(--color-primary-950);
 	--base-font-color-dark: var(--color-primary-50);
 	--base-font-family:
 		Inter, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
 		'Noto Color Emoji';
-	--base-font-size: inherit;
+	--base-font-size: 0.95rem;
 	--base-line-height: inherit;
 	--base-font-weight: normal;
 	--base-font-style: normal;

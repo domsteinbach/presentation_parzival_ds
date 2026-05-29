@@ -58,17 +58,17 @@
 
 .typography {
 	h1:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
-		@apply h1 mb-4;
+		@apply h1 mb-2;
 	}
 
 	h2:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
-		@apply h2 my-4;
+		@apply h2 my-2;
 	}
 	a:not(:where([class~='unstyled'], [class~='unstyled'] *, h2 > a, h3 > a, h4 > a)) {
 		@apply anchor;
 	}
 	p:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
-		@apply mb-4;
+		@apply mb-2;
 	}
 	ul:not(:where([class~='unstyled'], [class~='unstyled'] *)) {
 		@apply list-disc pl-4;
