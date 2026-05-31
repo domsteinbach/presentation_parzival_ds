@@ -12,11 +12,6 @@ concurrency:
 jobs:
   build_site:
     runs-on: ubuntu-latest
-    services:
-      existdb:
-        image: existdb/existdb:6.2.0
-        ports:
-          - 8081:8080
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,35 +25,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: start docker
-        env:
-          EXISTDB_USER: 'admin'
-          EXISTDB_PASS: ''
-          EXISTDB_SERVER: 'http://127.0.0.1:8081'
-        run: |
-          npm run installXar
-
-      - name: Free Disk Space
-        uses: jlumbroso/free-disk-space@main
-        with:
-          # this might remove tools that are actually needed,
-          # if set to "true" but frees about 6 GB
-          tool-cache: true
-
-          # all of these default to true, but feel free to set to
-          # "false" if necessary for your workflow
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: false
-          swap-storage: true
-
       - name: build
         env:
-          # BASE_PATH: "/${{ github.event.repository.name }}"
           BASE_PATH: '/${{ github.event.repository.name }}'
           NODE_OPTIONS: '--max_old_space_size=9000'
+          # Fork-only build: no eXist-DB / TEI Publisher service is started.
+          # Heavy routes (fassungen + transkriptionen data, verssynopse)
+          # are either fetched at runtime from upstream parzival.unibe.ch
+          # or redirected client-side. See URL_UPSTREAM in
+          # src/lib/constants.js.
         run: |
           npm run build
 
@@ -78,7 +53,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy
         id: deployment

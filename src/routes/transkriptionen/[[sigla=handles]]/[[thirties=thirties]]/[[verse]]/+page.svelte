@@ -7,7 +7,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { goto, replaceState } from '$app/navigation';
-	import { URL_STATIC_API, URL_IIIF } from '$lib/constants';
+	import { URL_STATIC_API, URL_IIIF, URL_UPSTREAM } from '$lib/constants';
 	import filenameFromHandleAndId from '$lib/functions/filenameFromHandleAndId';
 	import Popover from '$lib/components/Popover.svelte';
 	import Zitierempfehlung from '$lib/components/Zitierempfehlung.svelte';
@@ -133,7 +133,9 @@
 
 			return {
 				id: id,
-				tpData: fetch(`${base}/transkriptionen/data/${sigla}/${id}`).then((r) => r.json()),
+				tpData: fetch(`${URL_UPSTREAM}/transkriptionen/data/${sigla.toLowerCase()}/${id}`).then(
+					(r) => r.json()
+				),
 				// using id.toUpperCase() to match the iiif file naming convention - this might change in the future
 				iiif: iiifData,
 				overlay: `${URL_STATIC_API}/svg/${filenameFromHandleAndId(sigla, id)}.svg`
