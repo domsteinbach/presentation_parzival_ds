@@ -1,5 +1,4 @@
-import { URL_STATIC_API } from '$lib/constants';
-import { base } from '$app/paths';
+import { URL_STATIC_API, URL_UPSTREAM } from '$lib/constants';
 import { metadata } from '$lib/data/metadata';
 import filenameFromHandleAndId from '$lib/functions/filenameFromHandleAndId';
 import { error } from '@sveltejs/kit';
@@ -108,7 +107,7 @@ export async function load({ fetch, params }) {
 			}
 			if (returnObject.id) {
 				returnObject.tpData = fetch(
-					`${base}/transkriptionen/data/${handle}/${returnObject.id}`
+					`${URL_UPSTREAM}/transkriptionen/data/${handle.toLowerCase()}/${returnObject.id}`
 				).then((r) => {
 					return r.json();
 				});

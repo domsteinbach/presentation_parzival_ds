@@ -22,7 +22,7 @@ const config = {
 			concurrency: 4,
 			handleHttpError: 'warn', //remove this for production
 			handleMissingId: 'warn', //remove this for production
-			handleUnseenRoutes: 'warn' //remove this for production
+			handleUnseenRoutes: 'ignore' //links into the sliced verssynopse range are expected
 		}
 	}
 };

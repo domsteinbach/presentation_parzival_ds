@@ -6,7 +6,7 @@
 	import FassungenContent from './FassungenContent.svelte';
 	import FassungskommentarModal from './FassungskommentarModal.svelte';
 	import { base } from '$app/paths';
-	import { NUMBER_OF_PAGES } from '$lib/constants';
+	import { NUMBER_OF_PAGES, URL_UPSTREAM } from '$lib/constants';
 	import { Switch } from '@skeletonlabs/skeleton-svelte';
 	import { page } from '$app/state';
 	import { onMount, tick, untrack } from 'svelte';
@@ -167,7 +167,7 @@
 				let info;
 				// fetch the page before the current one if the current one is not the first
 				if (page > 1) {
-					info = await fetch(`${base}/fassungen/data/${page - 1}`).then((r) => r.json());
+					info = await fetch(`${URL_UPSTREAM}/fassungen/data/${page - 1}`).then((r) => r.json());
 					labels.forEach((label, index) => {
 						const { preparedHTML, preparedDistribution } = prepareHTML(info.content[index], label);
 						this.pages[index].push([page - 1, preparedHTML]);
@@ -178,7 +178,7 @@
 				}
 				// fetch the current page
 				if (page <= NUMBER_OF_PAGES) {
-					info = await fetch(`${base}/fassungen/data/${page}`).then((r) => r.json());
+					info = await fetch(`${URL_UPSTREAM}/fassungen/data/${page}`).then((r) => r.json());
 					labels.forEach((label, index) => {
 						const { preparedHTML, preparedDistribution } = prepareHTML(info.content[index], label);
 						this.pages[index].push([page, preparedHTML]);
@@ -189,7 +189,7 @@
 				}
 				// fetch the page after the current one if the current one is not the last
 				if (page !== NUMBER_OF_PAGES) {
-					info = await fetch(`${base}/fassungen/data/${page + 1}`).then((r) => r.json());
+					info = await fetch(`${URL_UPSTREAM}/fassungen/data/${page + 1}`).then((r) => r.json());
 					labels.forEach((label, index) => {
 						const { preparedHTML, preparedDistribution } = prepareHTML(info.content[index], label);
 						this.pages[index].push([page + 1, preparedHTML]);
@@ -203,7 +203,7 @@
 				}
 			} else {
 				if (page < this.thirties[0] && !this.thirties.includes(page)) {
-					let info = await fetch(`${base}/fassungen/data/${page}`).then((r) => r.json());
+					let info = await fetch(`${URL_UPSTREAM}/fassungen/data/${page}`).then((r) => r.json());
 					labels.forEach((label, index) => {
 						const { preparedHTML, preparedDistribution } = prepareHTML(info.content[index], label);
 						this.pages[index].unshift([page, preparedHTML]);
@@ -212,7 +212,7 @@
 					this.books.unshift(info.meta.book);
 					this.thirties.unshift(page);
 				} else if (page > this.thirties[this.thirties.length - 1]) {
-					let info = await fetch(`${base}/fassungen/data/${page}`).then((r) => r.json());
+					let info = await fetch(`${URL_UPSTREAM}/fassungen/data/${page}`).then((r) => r.json());
 					labels.forEach((label, index) => {
 						const { preparedHTML, preparedDistribution } = prepareHTML(info.content[index], label);
 						this.pages[index].push([page, preparedHTML]);
