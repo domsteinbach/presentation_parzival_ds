@@ -441,6 +441,11 @@
 	});
 
 	let gotoThirties = $state(Number(data.thirties));
+	// keep the input in sync with the current Dreißiger when the route changes
+	// (e.g. via prev/next buttons or scroll-triggered loads)
+	$effect(() => {
+		gotoThirties = Number(data.thirties);
+	});
 
 	// --------------------------------------
 	// Fassungen ein-/ausblenden (visibility toggles per column)
@@ -473,144 +478,141 @@
 			{next ? 'Nächsten Dreißiger anzeigen' : 'vorherigen Dreißiger anzeigen'}
 		</button>
 	{/snippet}
-	<div class="flex items-baseline justify-between gap-4 flex-wrap my-4">
-		<h1 class="h1 min-w-0">Fassungsedition</h1>
+	<div class="flex items-baseline justify-between gap-4 flex-wrap">
+		<h1 class="h1 my-4 min-w-0">Fassungsedition</h1>
 		<Zitierempfehlung mode="popup" citation={{ variant: 'fassungen' }} />
 	</div>
 	<ExpandableContent clampClass="line-clamp-2" class="mb-2 typography">
 		<ErlaeuterungenFassungsedition />
 	</ExpandableContent>
 
-	<div class="mt-6 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-6">
-		<aside class="lg:sticky lg:top-0 lg:self-start lg:max-h-screen lg:overflow-y-auto">
-			<div class="flex flex-col gap-3">
-				<div>
-					<h2 class="h5">
-						{localPages.books[localPages.thirties.indexOf(Number(data.thirties))]}
-					</h2>
-					<h3 class="h3 my-2">Dreißiger {data.thirties}</h3>
-					<p>
-						Eintextedition als <a
-							class="anchor"
-							target="_blank"
-							href="https://data.parzival.digitaleditions.ch/api/pdf/Parzival_Eintextedition.pdf#page={data.thirties}"
-						>
-							PDF
-						</a> aufrufen
-					</p>
-				</div>
-				{#if mobileBreakpoint}
-					<Switch
-						thumbInactive="bg-surface-800"
-						controlInactive="bg-surface-100"
-						name="synchro"
-						checked={synchro}
-						onCheckedChange={(e) => (synchro = e.checked)}
-					>
-						synchron scrollen
-					</Switch>
-				{/if}
-				<form
-					onsubmit={(e) => {
-						e.preventDefault();
-						localPages.reset();
-						goto(`${base}/fassungen/${gotoThirties}`);
-					}}
+	<div class="flex flex-wrap items-end gap-x-6 gap-y-3 my-4">
+		<div class="flex flex-col gap-1">
+			<form
+				class="flex items-baseline gap-1"
+				onsubmit={(e) => {
+					e.preventDefault();
+					localPages.reset();
+					goto(`${base}/fassungen/${gotoThirties}`);
+				}}
+			>
+				<label for="goto-thirties" class="block text-lg font-bold font-serif"
+					><span id="buch-anzeige" class="inline-block min-w-[5em] mr-1"
+						>{localPages.books[localPages.thirties.indexOf(Number(data.thirties))]}</span
+					><span class="mr-1">Dreißiger</span></label
 				>
-					<label for="goto-thirties" class="block text-lg font-bold font-serif mb-2"
-						>Dreißiger wählen</label
-					>
-					<input
-						id="goto-thirties"
-						type="number"
-						placeholder="Dreißiger"
-						class="input inline w-[4em]"
-						min="1"
-						max={NUMBER_OF_PAGES}
-						bind:value={gotoThirties}
-					/>
-					<button aria-label="suchen" class="btn preset-filled-primary-500">Anzeigen</button>
-				</form>
+				<input
+					id="goto-thirties"
+					type="number"
+					placeholder="Dreißiger"
+					class="input inline w-[4em] mr-1"
+					min="1"
+					max={NUMBER_OF_PAGES}
+					bind:value={gotoThirties}
+				/>
+				<button aria-label="suchen" class="btn preset-filled-primary-500">Anzeigen</button>
+			</form>
 
-				<fieldset class="flex flex-col gap-2">
-					<legend class="text-lg font-bold font-serif mb-2">Ein-/ausblenden</legend>
-					{#each columnKeys as key, i}
-						<Switch
-							thumbInactive="bg-surface-800"
-							controlInactive="bg-surface-100"
+			<p>
+				Eintextedition als <a
+					class="anchor"
+					target="_blank"
+					rel="noopener noreferrer"
+					href="https://data.parzival.digitaleditions.ch/api/pdf/Parzival_Eintextedition.pdf#page={data.thirties}"
+				>
+					PDF
+				</a> aufrufen
+			</p>
+		</div>
+
+		<div class="flex flex-wrap items-center gap-x-6 gap-y-3 ml-auto">
+			<fieldset class="flex items-center gap-3 [&>legend]:float-left">
+				<legend class="text-lg font-bold font-serif">Fassungen:</legend>
+				{#each columnKeys as key, i}
+					<label class="flex items-center gap-1">
+						<input
+							type="checkbox"
+							class="checkbox"
 							name="fassung-{key}"
-							checked={fassungenVisible[i]}
-							onCheckedChange={(e) => (fassungenVisible[i] = e.checked)}
-						>
-							{composureTitles[i]}
-						</Switch>
-					{/each}
-				</fieldset>
-			</div>
-		</aside>
-
-		<div>
-			<!-- Modal for Fassungskommentar -->
-			{#if FasskommStore.elTrigger}
-				<FassungskommentarModal
-					commentary={FasskommStore.commentary}
-					id={FasskommStore.id}
-					bind:openState={FasskommStore.elTrigger}
-				/>
-			{/if}
-
-			<!-- Popover for Apparat -->
-			{#if ApparatStore.elTrigger}
-				<ApparatPopover
-					resetPopup={closeApparatOnInteraction}
-					onMouseEnter={onMouseEnterApparatPopover}
-					onMouseLeave={onMouseLeaveApparatPopover}
-					elTrigger={ApparatStore.elTrigger}
-					dreissiger={ApparatStore.dreissiger}
-					verse={ApparatStore.verse}
-					title={ApparatStore.title}
-					structure_info={ApparatStore.structure_info}
-					reading_info={ApparatStore.reading_info}
-				/>
-			{/if}
-
-			<!-- Fassungen Content -->
-			{#if synchro}
-				<FassungenSyncContent
-					resetPopup={closeApparatOnInteraction}
-					content={localPages.pages}
-					distributions={localPages.distributions}
-					titles={composureTitles}
-					{fassungenVisible}
-					{nextPrevButton}
-				/>
-			{:else}
-				{@const visibleCount = fassungenVisible.filter(Boolean).length}
-				<div
-					class="grid gap-4 mb-2"
-					class:lg:grid-cols-1={visibleCount === 1}
-					class:lg:grid-cols-2={visibleCount === 2}
-					class:lg:grid-cols-3={visibleCount === 3}
-					class:lg:grid-cols-4={visibleCount === 4}
+							bind:checked={fassungenVisible[i]}
+						/>
+						{composureTitles[i]}
+					</label>
+				{/each}
+			</fieldset>
+			{#if mobileBreakpoint}
+				<Switch
+					thumbInactive="bg-surface-800"
+					controlInactive="bg-surface-100"
+					name="synchro"
+					checked={synchro}
+					onCheckedChange={(e) => (synchro = e.checked)}
 				>
-					{#each localPages.pages as fassung, i}
-						{#if fassungenVisible[i]}
-							<div>
-								{#if fassung.length >= 2}
-									<!-- when at least 2 pages are loaded, the one for the currect thirties should be loaded aswell  -->
-									<FassungenContent
-										resetPopup={closeApparatOnInteraction}
-										pages={fassung}
-										distribution={localPages.distributions[i]}
-										title={composureTitles[i]}
-										{nextPrevButton}
-									/>
-								{/if}
-							</div>
-						{/if}
-					{/each}
-				</div>
+					synchron scrollen
+				</Switch>
 			{/if}
 		</div>
 	</div>
+
+	<!-- Modal for Fassungskommentar -->
+	{#if FasskommStore.elTrigger}
+		<FassungskommentarModal
+			commentary={FasskommStore.commentary}
+			id={FasskommStore.id}
+			bind:openState={FasskommStore.elTrigger}
+		/>
+	{/if}
+
+	<!-- Popover for Apparat -->
+	{#if ApparatStore.elTrigger}
+		<ApparatPopover
+			resetPopup={closeApparatOnInteraction}
+			onMouseEnter={onMouseEnterApparatPopover}
+			onMouseLeave={onMouseLeaveApparatPopover}
+			elTrigger={ApparatStore.elTrigger}
+			dreissiger={ApparatStore.dreissiger}
+			verse={ApparatStore.verse}
+			title={ApparatStore.title}
+			structure_info={ApparatStore.structure_info}
+			reading_info={ApparatStore.reading_info}
+		/>
+	{/if}
+
+	<!-- Fassungen Content -->
+	{#if synchro}
+		<FassungenSyncContent
+			resetPopup={closeApparatOnInteraction}
+			content={localPages.pages}
+			distributions={localPages.distributions}
+			titles={composureTitles}
+			{fassungenVisible}
+			{nextPrevButton}
+		/>
+	{:else}
+		{@const visibleCount = fassungenVisible.filter(Boolean).length}
+		<div
+			class="grid gap-4 mb-2"
+			class:lg:grid-cols-1={visibleCount === 1}
+			class:lg:grid-cols-2={visibleCount === 2}
+			class:lg:grid-cols-3={visibleCount === 3}
+			class:lg:grid-cols-4={visibleCount === 4}
+		>
+			{#each localPages.pages as fassung, i}
+				{#if fassungenVisible[i]}
+					<div>
+						{#if fassung.length >= 2}
+							<!-- when at least 2 pages are loaded, the one for the currect thirties should be loaded aswell  -->
+							<FassungenContent
+								resetPopup={closeApparatOnInteraction}
+								pages={fassung}
+								distribution={localPages.distributions[i]}
+								title={composureTitles[i]}
+								{nextPrevButton}
+							/>
+						{/if}
+					</div>
+				{/if}
+			{/each}
+		</div>
+	{/if}
 </section>
